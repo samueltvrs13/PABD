@@ -1,0 +1,54 @@
+    <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1>{{ app_name }}</h1>
+        </header>
+        
+        <main>
+            <table>
+                <thead>
+                    <tr>
+                        <th>CPF</th>
+                        <th>Primeiro Nome</th>
+                        <th>Último Nome</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for f in funcionarios %}
+                    <tr>
+                        <td>{{ f.cpf|format_cpf }}</td>
+                        <td>{{ f.pnome }}</td>
+                        <td>{{ f.unome }}</td>
+                        <td>
+                            <a href="{{ url_for('details', pk='cpf', id=f.cpf) }}" title="Ver detalhes">
+                                <img src="https://pic.sopili.net/pub/emoji/twitter/2/72x72/1f441.png" width=20 height=20>
+                            </a>
+                            <a href="{{ url_for('update', pk=f.cpf) }}" title="Editar">
+                                <img src="https://pic.sopili.net/pub/emoji/twitter/2/72x72/270d.png" width=20 height=20>
+                            </a>
+                            <a href="{{ url_for('delete', pk=f.cpf) }}" title="Apagar">
+                                <img src="https://pic.sopili.net/pub/emoji/twitter/2/72x72/1f5d1.png" width=20 height=20>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <div class="novo-botao">
+                <a href="{{ url_for('create') }}">
+                    Novo Funcionário
+                </a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Exclusão</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='delete.css') }}">
+</head>
+<body>
+    <div class="container">
+        
+        <div class="card">
+            
+            <header class="cabecalho">
+                <h1>Confirmar Exclusão</h1>
+                <p class="subtitulo">Ação irreversível</p>
+            </header>
+            
+            <main class="conteudo">
+                
+                <div class="alerta alerta-aviso">
+                    <h2>Atenção!</h2>
+                    <p>Você está prestes a excluir um funcionário permanentemente.</p>
+                </div>
+
+                <div class="informacoes">
+                    <h3>Funcionário a ser excluído</h3>
+                    
+                    <div class="dados-funcionario">
+                        <div class="dados-coluna">
+                            <p><strong>Nome:</strong> {{ funcionario.pnome }} {{ funcionario.unome }}</p>
+                            <p><strong>CPF:</strong> {{ funcionario.cpf|format_cpf }}</p>
+                        </div>
+                        
+                        <div class="dados-coluna">
+                            <p><strong>Nascimento:</strong>
+                                {% if funcionario.data_nasc %}
+                                    {% if funcionario.data_nasc is string %}
+                                        {{ datetime.strptime(funcionario.data_nasc, '%Y-%m-%d').strftime('%d/%m/%Y') }}
+                                    {% else %}
+                                        {{ funcionario.data_nasc.strftime('%d/%m/%Y') }}
+                                    {% endif %}
+                                {% else %}
+                                    Não informado
+                                {% endif %}
+                            </p>
+                            <p><strong>Salário:</strong> 
+                                {% if funcionario.salario %}
+                                    R$ {{ "%.2f"|format(funcionario.salario) }}
+                                {% else %}
+                                    Não informado
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alerta alerta-perigo">
+                    <h2>Esta ação não pode ser desfeita!</h2>
+                    <p>Após a exclusão, os dados do funcionário serão permanentemente removidos.</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('delete', pk=funcionario.cpf) }}" class="formulario">
+                    <div class="botoes">
+                        <a href="{{ url_for('index') }}" class="botao botao-cancelar">
+                            Cancelar
+                        </a>
+                        
+                        <button type="submit" class="botao botao-excluir" id="confirmDelete">
+                            Confirmar Exclusão
+                        </button>
+                    </div>
+                </form>
+            </main>
+            
+            <footer class="rodape">
+                <p><strong>Observação:</strong> Use o botão "Voltar" do navegador para retornar.</p>
+            </footer>
+        </div>
+
+    </div>
+</body>
+</html>
